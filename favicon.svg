@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background -->
+  <rect width="100" height="100" fill="#0a0a0a"/>
+  
+  <!-- Outer glow circle -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Main atom structure -->
+  <!-- Nucleus -->
+  <circle cx="50" cy="50" r="8" fill="#00ff88">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Electron orbit 1 (horizontal) -->
+  <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Electron orbit 2 (diagonal) -->
+  <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.6" transform="rotate(60 50 50)"/>
+  
+  <!-- Electron orbit 3 (diagonal opposite) -->
+  <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6" transform="rotate(-60 50 50)"/>
+  
+  <!-- Electrons -->
+  <circle cx="80" cy="50" r="3" fill="#00ff88">
+    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="35" cy="38" r="3" fill="#00d4ff">
+    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="35" cy="62" r="3" fill="#00ff88">
+    <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Initials BHA at bottom -->
+  <text x="50" y="92" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#00ff88" text-anchor="middle" opacity="0.8">BHA</text>
+</svg>

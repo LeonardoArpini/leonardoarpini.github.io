@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Outer glow circle - stays in original position -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Move only the atom structure (nucleus + orbits + letters) up -->
+  <g transform="translate(0, -8)">
+    <!-- Nucleus with pulsing animation -->
+    <circle cx="50" cy="50" r="8" fill="#00ff88">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Electron orbit 1 (horizontal) -->
+    <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+    
+    <!-- Electron orbit 2 (diagonal 60°) -->
+    <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.6" transform="rotate(60 50 50)"/>
+    
+    <!-- Electron orbit 3 (diagonal -60°) -->
+    <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6" transform="rotate(-60 50 50)"/>
+    
+    <!-- Path definition (horizontal ellipse) -->
+    <defs>
+      <path id="orbit" d="M 80,50 A 30,12 0 1,1 20,50 A 30,12 0 1,1 80,50 Z"/>
+    </defs>
+    
+    <!-- B following horizontal orbit (0°) -->
+    <g>
+      <text font-family="'Varela Round', 'Quicksand', 'Rounded', Arial, sans-serif" font-size="10" font-weight="bold" fill="#00ff88" text-anchor="middle" dominant-baseline="middle">
+        <animateMotion dur="15s" repeatCount="indefinite">
+          <mpath href="#orbit"/>
+        </animateMotion>
+        B
+      </text>
+    </g>
+    
+    <!-- H following 60° rotated orbit -->
+    <g transform="rotate(60 50 50)">
+      <text font-family="'Varela Round', 'Quicksand', 'Rounded', Arial, sans-serif" font-size="10" font-weight="bold" fill="#00d4ff" text-anchor="middle" dominant-baseline="middle">
+        <animateMotion dur="18s" repeatCount="indefinite">
+          <mpath href="#orbit"/>
+        </animateMotion>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="-360 0 0" dur="18s" repeatCount="indefinite" additive="sum"/>
+        H
+      </text>
+    </g>
+    
+    <!-- A following -60° rotated orbit -->
+    <g transform="rotate(-60 50 50)">
+      <text font-family="'Varela Round', 'Quicksand', 'Rounded', Arial, sans-serif" font-size="10" font-weight="bold" fill="#00ff88" text-anchor="middle" dominant-baseline="middle">
+        <animateMotion dur="21s" repeatCount="indefinite">
+          <mpath href="#orbit"/>
+        </animateMotion>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="-360 0 0" dur="21s" repeatCount="indefinite" additive="sum"/>
+        A
+      </text>
+    </g>
+  </g>
+  
+  <!-- Curved path for bottom text following the outer circle curvature -->
+  <defs>
+    <path id="textArc" d="M 10,75 A 45,45 0 0,0 90,75"/>
+  </defs>
+  
+  <!-- Bottom B.H.A text following curved arc path -->
+  <text font-family="'Varela Round', 'Quicksand', 'Rounded', Arial, sans-serif" font-size="22" font-weight="bold" fill="#00ff88" opacity="0.95" letter-spacing="2">
+    <textPath href="#textArc" startOffset="50%" text-anchor="middle">
+      B.H.A
+    </textPath>
+  </text>
+</svg>

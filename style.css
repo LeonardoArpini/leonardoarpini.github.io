@@ -186,12 +186,20 @@ p {
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--chem-green);
-    text-shadow: var(--glow-green);
-    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    display: block;
 }
 
 .nav-links {

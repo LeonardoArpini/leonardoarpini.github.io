@@ -268,6 +268,22 @@ p {
     padding: 0.5rem 1rem;
     font-size: 1.25rem;
     cursor: pointer;
+    color: var(--chem-green);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    background: rgba(0, 255, 136, 0.1);
+}
+
+/* ===================================
+   Hero Section - Chemical Reaction
+   =================================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;

@@ -7,7 +7,7 @@ class ChemicalParticle {
         this.canvas = canvas;
         this.reset();
         this.element = this.getRandomElement();
-        this.active = false; // New: Start inactive (gray)
+        this.active = false; // Start inactive (gray)
     }
 
     reset() {
@@ -71,6 +71,12 @@ class ChemicalParticle {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    distanceToSquared(other) {
+        const dx = this.x - other.x;
+        const dy = this.y - other.y;
+        return dx * dx + dy * dy;
+    }
+
     canBondWith(other) {
         const bondRules = {
             'C-O': true, 'O-C': true,
@@ -97,10 +103,13 @@ class ChemicalBackground {
         this.explosions = [];
         this.mouse = { x: null, y: null };
         this.maxDistance = 180;
-        this.particleCount = 75;
+        this.isMobile = window.innerWidth < 768; // Detect mobile
+        this.particleCount = this.isMobile ? 30 : 50; // Optimized count
         this.contentAreas = [];
         this.reactionDistance = 80;
+        this.reactionDistanceSq = this.reactionDistance * this.reactionDistance;
         this.draggedParticle = null;
+        this.frame = 0;
 
         this.init();
     }
@@ -147,6 +156,9 @@ class ChemicalBackground {
     }
 
     handleMouseDown(e) {
+        // Mobile Optimization: Disable interaction to allow scrolling
+        if (this.isMobile) return;
+
         if (e.target.closest('a, button, input, textarea, select, .lang-btn')) return;
 
         let x, y;
@@ -273,9 +285,9 @@ class ChemicalBackground {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const p1 = this.particles[i];
                 const p2 = this.particles[j];
-                const distance = p1.distanceTo(p2);
+                const distSq = p1.distanceToSquared(p2);
 
-                if (distance < this.reactionDistance && p1.canBondWith(p2)) {
+                if (distSq < this.reactionDistanceSq && p1.canBondWith(p2)) {
                     const molecule = this.tryFormMolecule(p1, p2, i, j);
                     if (molecule) {
                         return;
@@ -486,8 +498,9 @@ class ChemicalBackground {
 
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.frame++;
 
-        if (Math.random() < 0.01) {
+        if (this.frame % 60 === 0) {
             this.updateContentAreas();
         }
 
@@ -504,16 +517,16 @@ class ChemicalBackground {
 
                 if (Math.abs(p1.x - p2.x) > 120 || Math.abs(p1.y - p2.y) > 120) continue;
 
-                const distance = p1.distanceTo(p2);
+                const distSq = p1.distanceToSquared(p2);
 
-                if (distance < 120 && p1.canBondWith(p2)) {
+                if (distSq < 14400 && p1.canBondWith(p2)) { // 120^2 = 14400
                     p1.active = true;
                     p2.active = true;
                 }
             }
         }
 
-        if (Math.random() < 0.23) {
+        if (this.frame % 20 === 0) {
             this.checkChemicalReactions();
         }
 
@@ -532,15 +545,18 @@ class ChemicalBackground {
             this.particles.forEach(particle => {
                 const dx = particle.x - this.mouse.x;
                 const dy = particle.y - this.mouse.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                const distSq = dx * dx + dy * dy;
+                const maxDistSq = this.maxDistance * this.maxDistance;
 
-                if (distance < this.maxDistance) {
+                if (distSq < maxDistSq) {
+                    const distance = Math.sqrt(distSq);
                     const opacity = 1 - (distance / this.maxDistance);
 
                     this.particles.forEach(other => {
                         if (particle !== other) {
-                            const particleDistance = particle.distanceTo(other);
-                            if (particleDistance < this.maxDistance) {
+                            const particleDistSq = particle.distanceToSquared(other);
+                            if (particleDistSq < maxDistSq) {
+                                const particleDistance = Math.sqrt(particleDistSq);
                                 const particleOpacity = (1 - (particleDistance / this.maxDistance)) * opacity;
                                 if (particleOpacity > 0.3) {
                                     this.drawConnection(particle, other, particleOpacity);

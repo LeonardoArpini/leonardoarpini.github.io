@@ -1015,7 +1015,8 @@ section {
 /* ===================================
    Contact Section
    =================================== */
-.contact {
+.contact,
+.academic {
     background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
     border: 1px solid rgba(0, 255, 136, 0.3);
     border-radius: 20px;
@@ -1064,7 +1065,8 @@ section {
     /* Garante que não apareça no hover */
 }
 
-.contact::before {
+.contact::before,
+.academic::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -1080,12 +1082,14 @@ section {
     z-index: 1;
 }
 
-.contact h2 {
+.contact h2,
+.academic h2 {
     color: #ffffff;
     margin-bottom: var(--space-sm);
 }
 
-.contact p {
+.contact p,
+.academic p {
     color: #b0b0b0;
     max-width: 700px;
     margin: 0 auto var(--space-lg);

@@ -1047,7 +1047,7 @@ section {
     color: var(--chem-green);
     font-weight: 600;
     font-size: 1.05rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -1122,7 +1122,7 @@ section {
     color: var(--chem-green);
     font-weight: 600;
     font-size: 1.05rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -1138,7 +1138,7 @@ section {
     background: var(--chem-green);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
+    transition: width 0.03s ease, height 0.03s ease;
 }
 
 .contact-btn:hover::before {

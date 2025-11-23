@@ -1,6 +1,7 @@
 /* ===================================
    Bruno Arpini - Chemical Research Portfolio
    Design Concept: Dark Laboratory Aesthetic
+   Author: Leonardo Laia Arpini
    =================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
@@ -265,12 +266,16 @@ p {
     display: none;
     background: none;
     border: 2px solid var(--chem-green);
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.75rem;
     font-size: 1.25rem;
     cursor: pointer;
+    justify-content: center;
+    position: relative;
     color: var(--chem-green);
     border-radius: 4px;
     transition: all 0.3s ease;
+    line-height: 1;
+    margin-right: 9px;
 }
 
 .mobile-menu-toggle:hover {
@@ -826,6 +831,56 @@ section {
     align-self: center;
 }
 
+.timeline-date-1 {
+    font-weight: 700;
+    color: var(--chem-cyan);
+    padding-top: var(--space-sm);
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    align-self: center;
+    position: relative;
+    top: 130px;
+}
+
+.timeline-date-7 {
+    font-weight: 700;
+    color: var(--chem-cyan);
+    padding-top: var(--space-sm);
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    align-self: center;
+    position: relative;
+    top: 130px;
+}
+
+.timeline-date-3 {
+    font-weight: 700;
+    color: var(--chem-cyan);
+    padding-top: var(--space-sm);
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    align-self: center;
+    position: relative;
+    top: 146px;
+}
+
+.timeline-date-5 {
+    font-weight: 700;
+    color: var(--chem-cyan);
+    padding-top: var(--space-sm);
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    align-self: center;
+    position: relative;
+    top: 146px;
+}
+
+
+.timeline-item:nth-child(even) .timeline-date {
+    position: relative;
+    top: -10px;
+}
+
 .timeline-marker {
     grid-column: 2;
     grid-row: 1;
@@ -852,7 +907,6 @@ section {
     box-shadow: 0 0 20px var(--chem-green);
     z-index: 2;
     top: 143px;
-    margin-top: 0;
     align-self: center;
     justify-self: center;
     position: relative;
@@ -1086,7 +1140,7 @@ footer {
     border-top: 1px solid rgba(0, 255, 136, 0.2);
     color: #808080;
     text-align: center;
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-sm) var(--space-md);
 }
 
 footer p {
@@ -1102,6 +1156,23 @@ footer p {
 
 .footer-link:hover {
     color: var(--chem-cyan);
+}
+
+.footer-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+    margin: 0.75rem auto;
+}
+
+.footer-dev {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.footer-dev:hover {
+    opacity: 1;
 }
 
 /* ===================================
@@ -1169,26 +1240,65 @@ footer p {
 
     .timeline::before {
         left: 30px;
+        transform: translateX(0);
     }
 
+    .timeline-content {
+        margin-top: -50px;
+    }
+
+    /* Define o layout mobile de coluna única com espaçamento */
     .timeline-item {
-        grid-template-columns: auto 1fr;
+        grid-template-columns: 1fr;
         padding-left: 60px;
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
     }
 
+    /* Alinha o conteúdo à esquerda e coloca a data acima do conteúdo */
     .timeline-item:nth-child(even) .timeline-content,
     .timeline-item:nth-child(odd) .timeline-content {
-        grid-column: 2;
+        grid-column: 1;
+        text-align: left;
     }
 
-    .timeline-date {
-        grid-column: 2;
+    .timeline-item:nth-child(even) .timeline-date,
+    .timeline-item:nth-child(odd) .timeline-date {
+        grid-column: 1;
         text-align: left !important;
         order: -1;
+
+        /* SOLUÇÃO DEFINITIVA PARA REMOVER O ESPAÇAMENTO HERDADO */
+        padding: 0;
+        margin: 0;
+
+        position: relative;
+        z-index: 10;
+        background-color: transparent;
+
+        font-size: 1.35rem;
+        color: var(--chem-cyan);
+        font-weight: 700;
+
+        /* ADIÇÃO: Um pequeno espaçamento abaixo da data para separar do título: */
+        margin-bottom: 5px;
     }
 
-    .timeline-marker {
+    /* Posicionamento e Alinhamento dos Marcadores no Mobile */
+    .timeline-marker,
+    .timeline-marker-1,
+    .timeline-marker-2,
+    .timeline-marker-3,
+    .timeline-marker-4 {
         left: 30px;
+        top: 0 !important;
+        /* SOBRESCRITAS: Zera o 'top' fixo do desktop */
+        margin-top: 50px;
+        /* Ajusta a posição vertical inicial */
+        align-self: flex-start;
+        justify-self: center;
+        position: absolute;
+
     }
 
     .timeline-content::before {

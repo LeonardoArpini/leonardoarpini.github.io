@@ -1047,7 +1047,7 @@ section {
     color: var(--chem-green);
     font-weight: 600;
     font-size: 1.05rem;
-    transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -1111,23 +1111,6 @@ section {
     flex-wrap: wrap;
 }
 
-.contact-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: 1.1rem 2.5rem;
-    background: rgba(0, 255, 136, 0.1);
-    border: 2px solid var(--chem-green);
-    border-radius: 8px;
-    color: var(--chem-green);
-    font-weight: 600;
-    font-size: 1.05rem;
-    transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
 .contact-btn::before {
     content: '';
     position: absolute;
@@ -1138,7 +1121,7 @@ section {
     background: var(--chem-green);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.03s ease, height 0.03s ease;
+    transition: width 0.3s ease, height 0.3s ease;
 }
 
 .contact-btn:hover::before {

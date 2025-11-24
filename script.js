@@ -92,7 +92,14 @@ const translations = {
     'academic-title': 'Academic Profiles',
     'academic-desc': 'Explore my research, publications, and academic curriculum.',
     'footer-rights': 'All rights reserved.',
-    'footer-cv': 'Lattes CV'
+    'footer-cv': 'Lattes CV',
+    'modal-title': 'Send me a message',
+    'modal-subtitle': 'I\'ll get back to you as soon as possible!',
+    'form-name': 'Name',
+    'form-email': 'Email',
+    'form-subject': 'Subject',
+    'form-message': 'Message',
+    'form-send': 'Send Message'
   },
   'pt': {
     'nav-home': 'Início',
@@ -175,7 +182,14 @@ const translations = {
     'academic-title': 'Perfis Acadêmicos',
     'academic-desc': 'Explore minha pesquisa, publicações e currículo acadêmico.',
     'footer-rights': 'Todos os direitos reservados.',
-    'footer-cv': 'Currículo Lattes'
+    'footer-cv': 'Currículo Lattes',
+    'modal-title': 'Envie-me uma mensagem',
+    'modal-subtitle': 'Entrarei em contato o mais breve possível!',
+    'form-name': 'Nome',
+    'form-email': 'Email',
+    'form-subject': 'Assunto',
+    'form-message': 'Mensagem',
+    'form-send': 'Enviar Mensagem'
   }
 };
 function updateLanguage(lang) {
@@ -407,20 +421,20 @@ document.querySelectorAll('.timeline-item').forEach(item => {
 
 document.querySelectorAll('.contact-btn').forEach(button => {
   button.addEventListener('click', function (e) {
-    const ripple = document.createElement('span');
+    // const ripple = document.createElement('span');
     const rect = this.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
 
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = x + 'px';
-    ripple.style.top = y + 'px';
-    ripple.classList.add('ripple');
+    // ripple.style.width = ripple.style.height = size + 'px';
+    // ripple.style.left = x + 'px';
+    // ripple.style.top = y + 'px';
+    // ripple.classList.add('ripple');
 
-    this.appendChild(ripple);
+    // this.appendChild(ripple);
 
-    setTimeout(() => ripple.remove(), 600);
+    // setTimeout(() => ripple.remove(), 600);
   });
 });
 
@@ -544,3 +558,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// ===================================
+// Contact Modal JavaScript
+// Adicionar ao final do script.js
+// ===================================
+
+// Modal Elements
+const modal = document.getElementById('contactModal');
+const openModalBtn = document.getElementById('openContactModal');
+const closeModalBtn = document.getElementById('closeModal');
+const modalOverlay = document.getElementById('modalOverlay');
+const contactForm = document.getElementById('contactForm');
+
+// Open Modal
+openModalBtn.addEventListener('click', () => {
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+});
+
+// Close Modal Function
+function closeModal() {
+  modal.classList.remove('active');
+  document.body.style.overflow = ''; // Restore scrolling
+}
+
+// Close Modal on X button
+closeModalBtn.addEventListener('click', closeModal);
+
+// Close Modal on overlay click
+modalOverlay.addEventListener('click', closeModal);
+
+// Close Modal on ESC key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('active')) {
+    closeModal();
+  }
+});
+
+// Handle Form Submission
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Get form data
+  const formData = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    subject: document.getElementById('subject').value,
+    message: document.getElementById('message').value
+  };
+
+  // Create mailto link
+  const mailtoLink = `mailto:bruno.arpini@usc.edu?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+    `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+  )}`;
+
+  // Open email client
+  window.location.href = mailtoLink;
+
+  // Close modal and reset form
+  setTimeout(() => {
+    closeModal();
+    contactForm.reset();
+  }, 500);
+});
+

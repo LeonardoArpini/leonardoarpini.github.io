@@ -4,60 +4,60 @@
 const nodemailer = require('nodemailer');
 
 module.exports = async (req, res) => {
-    // Configurar CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // Configurar CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Handle preflight
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
-    // Permitir apenas POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({
-            success: false,
-            error: 'Method not allowed'
-        });
-    }
+  // Permitir apenas POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      success: false,
+      error: 'Method not allowed'
+    });
+  }
 
-    const { name, email, subject, message } = req.body;
+  const { name, email, subject, message } = req.body;
 
-    // Validação básica
-    if (!name || !email || !subject || !message) {
-        return res.status(400).json({
-            success: false,
-            error: 'Todos os campos são obrigatórios'
-        });
-    }
+  // Validação básica
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({
+      success: false,
+      error: 'Todos os campos são obrigatórios'
+    });
+  }
 
-    // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        return res.status(400).json({
-            success: false,
-            error: 'Email inválido'
-        });
-    }
+  // Validar formato de email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      error: 'Email inválido'
+    });
+  }
 
-    try {
-        // Configurar transportador de email
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+  try {
+    // Configurar transportador de email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
 
-        // Configurar email
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'mrbeerlol@gmail.com', // Email de destino
-            replyTo: email, // Email do remetente para resposta
-            subject: `[Contato Site] ${subject}`,
-            html: `
+    // Configurar email
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'lolmrbeer@gmail.com', // Email de destino
+      replyTo: email, // Email do remetente para resposta
+      subject: `[Contato Site] ${subject}`,
+      html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -104,7 +104,7 @@ module.exports = async (req, res) => {
         </body>
         </html>
       `,
-            text: `
+      text: `
 Nova mensagem do site
 
 Nome: ${name}
@@ -117,21 +117,21 @@ ${message}
 ---
 Enviado através do formulário de contato do site
       `
-        };
+    };
 
-        // Enviar email
-        await transporter.sendMail(mailOptions);
+    // Enviar email
+    await transporter.sendMail(mailOptions);
 
-        return res.status(200).json({
-            success: true,
-            message: 'Email enviado com sucesso!'
-        });
+    return res.status(200).json({
+      success: true,
+      message: 'Email enviado com sucesso!'
+    });
 
-    } catch (error) {
-        console.error('Erro ao enviar email:', error);
-        return res.status(500).json({
-            success: false,
-            error: 'Erro ao enviar email. Por favor, tente novamente.'
-        });
-    }
+  } catch (error) {
+    console.error('Erro ao enviar email:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Erro ao enviar email. Por favor, tente novamente.'
+    });
+  }
 };

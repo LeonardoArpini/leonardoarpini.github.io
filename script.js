@@ -99,7 +99,10 @@ const translations = {
     'form-email': 'Email',
     'form-subject': 'Subject',
     'form-message': 'Message',
-    'form-send': 'Send Message'
+    'form-send': 'Send Message',
+    'form-sending': 'Sending...',
+    'form-success': 'Sent successfully!',
+    'form-error': 'Error! Try again'
   },
   'pt': {
     'nav-home': 'Início',
@@ -189,7 +192,10 @@ const translations = {
     'form-email': 'Email',
     'form-subject': 'Assunto',
     'form-message': 'Mensagem',
-    'form-send': 'Enviar Mensagem'
+    'form-send': 'Enviar Mensagem',
+    'form-sending': 'Enviando...',
+    'form-success': 'Enviado com sucesso!',
+    'form-error': 'Erro! Tente novamente'
   }
 };
 function updateLanguage(lang) {
@@ -597,29 +603,59 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Handle Form Submission
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // Get form data
-  const formData = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    subject: document.getElementById('subject').value,
-    message: document.getElementById('message').value
-  };
+  // Get submit button and save original text
+  const submitBtn = contactForm.querySelector('.submit-btn');
+  const originalText = submitBtn.innerHTML;
 
-  // Create mailto link
-  const mailtoLink = `mailto:bruno.arpini@usc.edu?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-    `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-  )}`;
+  // Show loading state
+  submitBtn.innerHTML = '<span>📧</span><span data-i18n="form-sending">Enviando...</span>';
+  submitBtn.disabled = true;
 
-  // Open email client
-  window.location.href = mailtoLink;
+  try {
+    // Get form data
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
 
-  // Close modal and reset form
-  setTimeout(() => {
-    closeModal();
-    contactForm.reset();
-  }, 500);
+    // Send to API
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      // Success
+      submitBtn.innerHTML = '<span>✅</span><span data-i18n="form-success">Enviado com sucesso!</span>';
+
+      setTimeout(() => {
+        closeModal();
+        contactForm.reset();
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 2000);
+    } else {
+      throw new Error(data.error || 'Erro ao enviar email');
+    }
+  } catch (error) {
+    // Error
+    console.error('Erro ao enviar email:', error);
+    submitBtn.innerHTML = '<span>❌</span><span data-i18n="form-error">Erro! Tente novamente</span>';
+
+    setTimeout(() => {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }, 3000);
+  }
 });
 

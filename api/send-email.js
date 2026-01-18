@@ -78,13 +78,13 @@ module.exports = async (req, res) => {
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : 'https://brunoarpini.vercel.app';
 
-  const logoUrl = `${baseUrl}/logo.svg`;
+  const logoUrl = `${baseUrl}/logo-email.png`;
 
   try {
     // 1. Enviar email para o ADMIN (Você) - Sempre em PT (ou fixo)
     await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: ['leonardoarpini@gmail.com'],
+      to: [process.env.EMAIL_ADMIN],
       reply_to: email,
       subject: `[Portfolio] Novo contato: ${subject}`,
       html: `
@@ -127,7 +127,7 @@ module.exports = async (req, res) => {
     await resend.emails.send({
       from: 'Bruno Arpini <onboarding@resend.dev>',
       to: [email],
-      reply_to: 'contato@veneuferie.resend.app',
+      reply_to: [process.env.EMAIL_REPLAY],
       subject: text.subject,
       html: `
         <!DOCTYPE html>

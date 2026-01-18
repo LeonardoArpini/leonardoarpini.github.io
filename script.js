@@ -604,7 +604,8 @@ contactForm.addEventListener('submit', async (e) => {
       name: document.getElementById('name').value,
       email: document.getElementById('email').value,
       subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
+      message: document.getElementById('message').value,
+      lang: localStorage.getItem('preferredLanguage') || 'pt' // Pega o idioma atual
     };
 
     // Send to API

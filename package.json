@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Bruno Henrique Arpini - Portfolio Website",
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "resend": "^3.0.0"
   }
 }

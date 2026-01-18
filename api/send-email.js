@@ -32,9 +32,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const data = await resend.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>', // Use onboarding@resend.dev if domain not verified
-      to: ['brunoarpini@email.com'], // Replace with your verified email or keep consistent
+    // 1. Enviar email para o ADMIN (Você)
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>', // Email de envio (padrão teste ou seu domínio)
+      to: ['leonardoarpini@gmail.com'], // Seu email real
       reply_to: email,
       subject: `[Contato Site] ${subject}`,
       html: `
@@ -77,9 +78,64 @@ module.exports = async (req, res) => {
       `
     });
 
+    // 2. Enviar email de CONFIRMAÇÃO para o USUÁRIO
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>',
+      to: [email],
+      subject: 'Mensagem recebida - Bruno Arpini',
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%); 
+                     color: white; padding: 30px 20px; border-radius: 10px 10px 0 0; text-align: center; }
+            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+            .message-box { background: white; padding: 20px; border-radius: 5px; border-left: 3px solid #00ff88; margin: 20px 0; }
+            .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px; }
+            .button { display: inline-block; padding: 12px 30px; background: #00ff88; color: #0d0d0d; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; font-family: Arial, sans-serif; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 style="margin: 0; font-size: 28px;">✅ Mensagem Recebida!</h1>
+            </div>
+            <div class="content">
+              <p>Olá <strong>${name}</strong>,</p>
+              
+              <p>Obrigado por entrar em contato! Recebi sua mensagem e responderei o mais breve possível.</p>
+              
+              <div class="message-box">
+                <p style="margin: 0; color: #666; font-size: 14px;"><strong>Resumo da sua mensagem:</strong></p>
+                <p style="margin: 10px 0 0 0;"><strong>Assunto:</strong> ${subject}</p>
+              </div>
+              
+              <p>Geralmente respondo em até 24-48 horas. Se for urgente, você também pode me encontrar nas redes acadêmicas:</p>
+              
+              <p style="text-align: center;">
+                <a href="http://lattes.cnpq.br/1022964934574626" class="button">📋 Currículo Lattes</a>
+              </p>
+              
+              <div class="footer">
+                <p><strong>Bruno Henrique Arpini</strong></p>
+                <p>Ph.D. in Chemistry | Postdoctoral Researcher</p>
+                <p style="font-size: 12px; color: #999; margin-top: 15px;">
+                  Este é um email automático. Por favor, não responda a esta mensagem.
+                </p>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    });
+
     return res.status(200).json({
       success: true,
-      data
+      message: 'Emails enviados com sucesso'
     });
 
   } catch (error) {

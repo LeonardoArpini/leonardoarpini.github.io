@@ -281,6 +281,12 @@ p {
     filter: grayscale(0%);
 }
 
+.flag-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
 .mobile-menu-toggle {
     display: none;
     background: none;
